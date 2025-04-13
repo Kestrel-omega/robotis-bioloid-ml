@@ -38,6 +38,9 @@ https://github.com/billynugrahas/ROBOTIS-BIOLOID
 
 ## 개발 환경 설정
 
+<details>
+<summary>Docker를 사용하는 방법</summary>
+   
 ### 0. WSL 설치
 ```powershell
 # PowerShell (관리자 권한)
@@ -275,5 +278,5 @@ rosrun bioloid_description walking_animation.py
 ```bash
 rostopic echo /joint_states -n1
 ```
-
+</details>
 
