@@ -95,12 +95,14 @@ usbipd list
 # 1-10   0403:6001  USB Serial Converter                                          Not shared
 
 # 해당 장치 공유 설정
-usbipd bind --busid=1-10
+usbipd bind --busid=4-14
 
 # WSL2에 장치 연결
-usbipd attach --wsl --busid=1-10
+usbipd attach --wsl --busid=4-14
 
-# WSL 실행하고 연결된 
+# WSL2 실행하고 연결된 USB 확인
+wsl
+ls -al /dev/ttyUSB*
 ```
 
 ### 6. 로보티즈 패키지 설치
