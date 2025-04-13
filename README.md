@@ -38,6 +38,12 @@ https://github.com/billynugrahas/ROBOTIS-BIOLOID
 
 ## 개발 환경 설정
 
+### 0. WSL 설치
+```powershell
+# PowerShell (관리자 권한)
+wsl --install
+```
+
 ### 1. Docker Desktop 설치
 
 1. [Docker Desktop](https://www.docker.com/products/docker-desktop)에서 윈도우용 설치 파일 다운로드 및 설치
@@ -54,13 +60,16 @@ https://github.com/billynugrahas/ROBOTIS-BIOLOID
 
 ### 3. ROS 컨테이너 생성 및 실행
 
+1. ROS Noetic 이미지 가져오기
 ```powershell
 # PowerShell (관리자 권한)
-docker run -it --name ros_robot_control ^
---env="DISPLAY=host.docker.internal:0.0" ^
---volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" ^
---net=host ^
-osrf/ros:noetic-desktop-full
+docker pull osrf/ros:noetic-desktop-full
+```
+
+2. ROS 컨테이너 실행
+```powershell
+# PowerShell (관리자 권한)
+docker run -it --name ros_robot_control --env="DISPLAY=host.docker.internal:0.0" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --net=host osrf/ros:noetic-desktop-full
 ```
 
 ### 4. ROS 작업 공간 설정
@@ -74,4 +83,24 @@ echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-### 5. 로보티즈 패키지 설치
+### 5. USB 장치 인식
+-  usbipd 설치 : https://github.com/dorssel/usbipd-win/releases
+-  명령 프롬프트를 관리자 권한으로 열고 다음과 같이 입력
+```bash
+# USB 장치 목록 확인
+usbipd list
+
+# 예시 출력:
+# BUSID  VID:PID    DEVICE                                                        STATE
+# 1-10   0403:6001  USB Serial Converter                                          Not shared
+
+# 해당 장치 공유 설정
+usbipd bind --busid=1-10
+
+# WSL2에 장치 연결
+usbipd attach --wsl --busid=1-10
+
+# WSL 실행하고 연결된 
+```
+
+### 6. 로보티즈 패키지 설치
