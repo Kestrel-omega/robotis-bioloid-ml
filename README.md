@@ -73,18 +73,18 @@ PowerShell에서 실행:
 choco install -y git cmake vcredist2013 vcredist140 openssl
 ```
 
-## 4. ROS 2 Humble 다운로드 및 설치
+## 4. ROS 2 iron 다운로드 및 설치
 
 - [ROS 2 릴리스 페이지](https://github.com/ros2/ros2/releases)에서 Windows 바이너리 다운로드
-- "ros2-humble-*-windows-AMD64.zip" 파일을 다운로드
-- 다운로드한 파일을 `C:\dev\ros2_humble` 경로에 압축 해제
+- "ros2-iron-*-windows-AMD64.zip" 파일을 다운로드
+- 다운로드한 파일을 `C:\dev\ros2_iron` 경로에 압축 해제
 
 ## 5. 환경 변수 설정
 
 - 시작 메뉴에서 "환경 변수"를 검색하여 "시스템 환경 변수 편집" 선택
 - "환경 변수" 버튼 클릭
 - "시스템 변수" 섹션에서 Path 변수를 찾아 "편집" 클릭
-- "새로 만들기" 버튼을 클릭하고 `C:\dev\ros2_humble\bin` 추가
+- "새로 만들기" 버튼을 클릭하고 `C:\dev\ros2_iron\bin` 추가
 - "확인" 클릭
 - "새로 만들기" 버튼을 클릭하여 새 시스템 변수 추가:
   - 변수명: `OPENSSL_CONF`
@@ -95,7 +95,7 @@ choco install -y git cmake vcredist2013 vcredist140 openssl
 
 명령 프롬프트를 열고 실행:
 ```
-call C:\dev\ros2_humble\setup.bat
+call C:\dev\ros2_iron\setup.bat
 ```
 
 ## 7. Python 의존성 설치
