@@ -259,6 +259,9 @@ if __name__ == '__main__':
 
 catkin 작업 공간 빌드 후 스크립트 실행
 ```bash
+# 파이썬 파일 실행 권한 제공
+chmod +x walking_animation.py
+
 # catkin 작업 공간 빌드
 cd ~/catkin_ws
 catkin_make
