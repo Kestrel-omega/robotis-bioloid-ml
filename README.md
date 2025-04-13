@@ -129,5 +129,19 @@ git clone https://github.com/ROBOTIS-GIT/DynamixelSDK.git -b noetic-devel
 git clone https://github.com/billynugrahas/ROBOTIS-BIOLOID
 cd ~/catkin_ws
 catkin_make
-source devel/setup.bash
+source ~/catkin_ws/devel/setup.bash
 ```
+
+## ROS 패키지 준비
+```bash
+# xacro 호환성 문제 해결
+# 모든 launch 파일에서 xacro.py를 xacro로 변경
+find ~/catkin_ws/src -name "*.launch" -exec sed -i 's/xacro.py/xacro/g' {} \;
+
+# launch 파일 실행
+roslaunch bioloid_description visualize.launch
+```
+
+아래 이미지처럼 나오면 성공
+![image](https://github.com/user-attachments/assets/986d5275-7468-4298-9515-9b59bad3da4d)
+
