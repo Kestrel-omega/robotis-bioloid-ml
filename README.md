@@ -122,6 +122,9 @@ sudo chmod 666 /dev/ttyUSB0
 
 ### 7. 로보티즈 패키지 설치
 ```bash
+# 기본 패키지 설치
+sudo apt install nano gedit git
+
 cd ~/catkin_ws/src
 git clone https://github.com/ROBOTIS-GIT/ROBOTIS-Framework.git
 git clone https://github.com/ROBOTIS-GIT/ROBOTIS-Framework-msgs.git
