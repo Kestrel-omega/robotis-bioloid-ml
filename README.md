@@ -148,3 +148,129 @@ roslaunch bioloid_description visualize.launch
 아래 이미지처럼 나오면 성공
 ![image](https://github.com/user-attachments/assets/986d5275-7468-4298-9515-9b59bad3da4d)
 
+## 로봇 애니메이션 실행
+새 터미널에서 도커 컨테이너 접속
+```bash
+docker exec -it ros_robot_control bash
+
+# 스크립트 파일 생성
+cd ~/catkin_ws/src/ROBOTIS-BIOLOID/bioloid_description
+mkdir -p scripts
+cd scripts
+nano walking_animation.py
+```
+
+다음 파이썬 코드 입력
+```python
+#!/usr/bin/env python3
+
+import rospy
+import math
+from sensor_msgs.msg import JointState
+from std_msgs.msg import Header
+import time
+
+class WalkingAnimation:
+    def __init__(self):
+        rospy.init_node('walking_animation')
+        self.joint_pub = rospy.Publisher('/joint_states', JointState, queue_size=10)
+        self.rate = rospy.Rate(10)  # 10Hz
+        
+        # 모든 관절 이름 (실제 로봇 모델에 맞게 수정)
+        self.joint_names = [
+            'left_shoulder_joint', 'left_arm_joint', 'left_forearm_joint',
+            'right_shoulder_joint', 'right_arm_joint', 'right_forearm_joint',
+            'left_hip_joint', 'left_hip_2_joint', 'left_thigh_joint', 'left_knee_joint', 'left_ankle_joint', 'left_foot_joint',
+            'right_hip_joint', 'right_hip_2_joint', 'right_thigh_joint', 'right_knee_joint', 'right_ankle_joint', 'right_foot_joint'
+        ]
+        
+        # 걷기 애니메이션을 위한 키프레임들
+        self.walking_frames = self.generate_walking_frames()
+        self.current_frame = 0
+        
+    def generate_walking_frames(self):
+        frames = []
+        steps = 20  # 키프레임 수
+        
+        for i in range(steps):
+            t = i / float(steps)
+            phase = 2 * math.pi * t
+            
+            # 기본 자세 (모든 관절은 0)
+            positions = [0.0] * len(self.joint_names)
+            
+            # 다리 관절 설정 (위상차를 두고 사인파로 움직임)
+            # 왼쪽 다리
+            positions[6] = 0.1 * math.sin(phase)  # left_hip_joint
+            positions[7] = 0.1 * math.sin(phase)  # left_hip_2_joint
+            positions[8] = 0.4 * math.sin(phase)  # left_thigh_joint
+            positions[9] = -0.8 * abs(math.sin(phase))  # left_knee_joint (항상 음수 값)
+            positions[10] = 0.4 * math.sin(phase + math.pi/4)  # left_ankle_joint
+            positions[11] = 0.1 * math.sin(phase)  # left_foot_joint
+            
+            # 오른쪽 다리 (반대 위상)
+            positions[12] = 0.1 * math.sin(phase + math.pi)  # right_hip_joint
+            positions[13] = 0.1 * math.sin(phase + math.pi)  # right_hip_2_joint
+            positions[14] = 0.4 * math.sin(phase + math.pi)  # right_thigh_joint
+            positions[15] = -0.8 * abs(math.sin(phase + math.pi))  # right_knee_joint
+            positions[16] = 0.4 * math.sin(phase + math.pi + math.pi/4)  # right_ankle_joint
+            positions[17] = 0.1 * math.sin(phase + math.pi)  # right_foot_joint
+            
+            # 팔 관절 (다리와 반대로 움직임)
+            positions[0] = 0.2 * math.sin(phase + math.pi)  # left_shoulder_joint
+            positions[1] = 0.4 * math.sin(phase + math.pi)  # left_arm_joint
+            positions[2] = 0.1 * math.sin(phase + math.pi)  # left_forearm_joint
+            
+            positions[3] = 0.2 * math.sin(phase)  # right_shoulder_joint
+            positions[4] = 0.4 * math.sin(phase)  # right_arm_joint
+            positions[5] = 0.1 * math.sin(phase)  # right_forearm_joint
+            
+            frames.append(positions)
+        
+        return frames
+    
+    def publish_frame(self, positions):
+        joint_state = JointState()
+        joint_state.header = Header()
+        joint_state.header.stamp = rospy.Time.now()
+        joint_state.name = self.joint_names
+        joint_state.position = positions
+        
+        self.joint_pub.publish(joint_state)
+    
+    def run(self):
+        print("Walking animation started. Press Ctrl+C to stop.")
+        while not rospy.is_shutdown():
+            # 현재 프레임의 관절 위치 발행
+            self.publish_frame(self.walking_frames[self.current_frame])
+            
+            # 다음 프레임으로 이동
+            self.current_frame = (self.current_frame + 1) % len(self.walking_frames)
+            
+            self.rate.sleep()
+
+if __name__ == '__main__':
+    try:
+        animation = WalkingAnimation()
+        animation.run()
+    except rospy.ROSInterruptException:
+        pass
+```
+
+catkin 작업 공간 빌드 후 스크립트 실행
+```bash
+# catkin 작업 공간 빌드
+cd ~/catkin_ws
+catkin_make
+source devel/setup.bash
+
+# 스크립트 실행
+rosrun bioloid_control walking_animation.py
+```
+
+현재 로봇의 관절 이름 확인
+```bash
+rostopic echo /joint_states -n1
+```
+
+
