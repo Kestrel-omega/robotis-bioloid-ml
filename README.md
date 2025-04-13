@@ -39,6 +39,119 @@ https://github.com/billynugrahas/ROBOTIS-BIOLOID
 ## 개발 환경 설정
 
 <details>
+<summary>윈도우에서 ROS2만 사용하는 방법</summary>
+
+## 1. 시스템 요구사항
+
+- Windows 10 (64비트) 또는 Windows 11
+- Visual Studio 2019 이상 (Visual C++ 지원)
+- 최소 20GB 디스크 공간
+- 최소 8GB RAM (16GB 이상 권장)
+
+## 2. 필수 소프트웨어 설치
+
+### Python 설치
+- [Python 공식 사이트](https://www.python.org/downloads/windows/)에서 Python 3.9.x 설치
+- 설치 시 "Add Python to PATH" 옵션 체크
+
+### Visual Studio 설치
+- Visual Studio 2019 또는 2022 Community 버전 설치
+- "Desktop development with C++" 워크로드 선택
+
+### Chocolatey 설치
+PowerShell을 관리자 권한으로 실행:
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+```
+
+## 3. 필요 도구 설치
+
+PowerShell에서 실행:
+```powershell
+choco install -y git cmake vcredist2013 vcredist140 openssl
+```
+
+## 4. ROS 2 Humble 다운로드 및 설치
+
+- [ROS 2 릴리스 페이지](https://github.com/ros2/ros2/releases)에서 Windows 바이너리 다운로드
+- "ros2-humble-*-windows-AMD64.zip" 파일을 다운로드
+- 다운로드한 파일을 `C:\dev\ros2_humble` 경로에 압축 해제
+
+## 5. 환경 변수 설정
+
+- 시작 메뉴에서 "환경 변수"를 검색하여 "시스템 환경 변수 편집" 선택
+- "환경 변수" 버튼 클릭
+- "시스템 변수" 섹션에서 Path 변수를 찾아 "편집" 클릭
+- "새로 만들기" 버튼을 클릭하고 `C:\dev\ros2_humble\bin` 추가
+- "확인" 클릭
+- "새로 만들기" 버튼을 클릭하여 새 시스템 변수 추가:
+  - 변수명: `OPENSSL_CONF`
+  - 변수값: `C:\Program Files\OpenSSL-Win64\bin\openssl.cfg`
+- "확인" 클릭
+
+## 6. ROS 2 환경 설정
+
+명령 프롬프트를 열고 실행:
+```
+call C:\dev\ros2_humble\setup.bat
+```
+
+## 7. Python 의존성 설치
+
+명령 프롬프트에서 실행:
+```
+python -m pip install -U pip
+pip install -U catkin_pkg cryptography empy ifcfg lark-parser lxml netifaces numpy opencv-python pyparsing pyyaml setuptools rosdistro
+```
+
+## 8. 설치 확인
+
+명령 프롬프트에서 실행:
+```
+ros2 doctor
+```
+
+성공하면 통신 테스트:
+
+첫 번째 명령 프롬프트:
+```
+ros2 run demo_nodes_cpp talker
+```
+
+두 번째 명령 프롬프트:
+```
+ros2 run demo_nodes_cpp listener
+```
+
+"talker"에서 보내는 메시지가 "listener"에서 수신되는 것을 확인합니다.
+
+## 9. 개발 환경 설정 (선택사항)
+
+Visual Studio Code 설치:
+```powershell
+choco install -y vscode
+```
+
+VS Code에서 다음 확장 프로그램 설치:
+- C/C++
+- Python
+- CMake
+- XML Tools
+- ROS Extension
+
+## 10. ROS 2 작업 공간 생성
+
+명령 프롬프트에서 실행:
+```
+md C:\dev\ros2_ws\src
+cd C:\dev\ros2_ws
+colcon build
+```
+</details>
+
+<details>
 <summary>Docker를 사용하는 방법</summary>
    
 ### 0. WSL 설치
