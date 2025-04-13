@@ -265,7 +265,7 @@ catkin_make
 source devel/setup.bash
 
 # 스크립트 실행
-rosrun bioloid_control walking_animation.py
+rosrun bioloid_description walking_animation.py
 ```
 
 현재 로봇의 관절 이름 확인
