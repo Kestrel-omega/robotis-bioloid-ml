@@ -125,7 +125,7 @@ sudo chmod 666 /dev/ttyUSB0
 cd ~/catkin_ws/src
 git clone https://github.com/ROBOTIS-GIT/ROBOTIS-Framework.git
 git clone https://github.com/ROBOTIS-GIT/ROBOTIS-Framework-msgs.git
-git clone https://github.com/ROBOTIS-GIT/DynamixelSDK.git
+git clone https://github.com/ROBOTIS-GIT/DynamixelSDK.git -b noetic-devel
 git clone https://github.com/billynugrahas/ROBOTIS-BIOLOID
 cd ~/catkin_ws
 catkin_make
