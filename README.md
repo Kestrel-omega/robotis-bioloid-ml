@@ -1,9 +1,9 @@
-# robotis-bioloid-ml
+![image](https://github.com/user-attachments/assets/d85e2ba2-40c2-4487-b320-79028e181a5a)# robotis-bioloid-ml
 
 로보티즈 바이올로이드 프리미엄 키트의 16DOF 휴머노이드 A형 로봇을 딥러닝 모델 기반으로 제어해보는 프로젝트
 
 ## 프로젝트 개요
-
+![image](https://github.com/user-attachments/assets/275b170b-112d-46e0-bbb2-0d1ded3629bd)
 - **대상 로봇**: 로보티즈 바이올로이드 프리미엄 키트 (16DOF 휴머노이드 A형)
 - **액추에이터**: AX-12A x 16
 - **컨트롤러**: CM-530
@@ -35,3 +35,43 @@
 
 ## 사용 예정 ROS 패키지
 https://github.com/billynugrahas/ROBOTIS-BIOLOID
+
+## 개발 환경 설정
+
+### 1. Docker Desktop 설치
+
+1. [Docker Desktop](https://www.docker.com/products/docker-desktop)에서 윈도우용 설치 파일 다운로드 및 설치
+2. WSL2 통합 옵션 활성화
+
+### 2. X서버 설정 (GUI 지원)
+
+1. [VcXsrv](https://sourceforge.net/projects/vcxsrv/) 다운로드 및 설치
+2. XLaunch 실행 시 다음 설정 적용:
+   - Display number: 0
+   - Start no client 선택
+   - Native opengl 체크 해제
+   - Disable access control 체크
+
+### 3. ROS 컨테이너 생성 및 실행
+
+```powershell
+# PowerShell (관리자 권한)
+docker run -it --name ros_robot_control ^
+--env="DISPLAY=host.docker.internal:0.0" ^
+--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" ^
+--net=host ^
+osrf/ros:noetic-desktop-full
+```
+
+### 4. ROS 작업 공간 설정
+
+```bash
+# 컨테이너 내부
+mkdir -p ~/catkin_ws/src
+cd ~/catkin_ws/
+catkin_make
+echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
+
+### 5. 로보티즈 패키지 설치
