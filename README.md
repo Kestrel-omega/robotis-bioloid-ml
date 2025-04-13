@@ -103,6 +103,31 @@ usbipd attach --wsl --busid=4-14
 # WSL2 실행하고 연결된 USB 확인
 wsl
 ls -al /dev/ttyUSB*
+
+# 기존 컨테이너 종료하고 제거
+docker stop ros_robot_control
+docker rm ros_robot_control
+
+# 장치 매핑하여 새 컨테이너 생성
+docker run -it --name ros_robot_control --env="DISPLAY=host.docker.internal:0.0" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --device=/dev/ttyUSB0:/dev/ttyUSB0 --net=host osrf/ros:noetic-desktop-full
 ```
 
-### 6. 로보티즈 패키지 설치
+### 6. 컨테이너 내에서 장치 접근 권한 설정
+```bash
+sudo apt update
+sudo apt install -y dialout
+sudo usermod -aG dialout root
+sudo chmod 666 /dev/ttyUSB0
+```
+
+### 7. 로보티즈 패키지 설치
+```bash
+cd ~/catkin_ws/src
+git clone https://github.com/ROBOTIS-GIT/ROBOTIS-Framework.git
+git clone https://github.com/ROBOTIS-GIT/ROBOTIS-Framework-msgs.git
+git clone https://github.com/ROBOTIS-GIT/DynamixelSDK.git
+git clone https://github.com/billynugrahas/ROBOTIS-BIOLOID
+cd ~/catkin_ws
+catkin_make
+source devel/setup.bash
+```
