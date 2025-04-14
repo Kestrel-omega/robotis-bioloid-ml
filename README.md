@@ -82,8 +82,25 @@ docker pull osrf/ros:noetic-desktop-full
 # PowerShell (관리자 권한)
 docker run -it --name ros_robot_control --env="DISPLAY=host.docker.internal:0.0" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --net=host osrf/ros:noetic-desktop-full
 ```
+### 4. Docker에서 GPU 사용하도록 설정 (Nvidia)
+- wsl을 실행하여 NVIDIA 드라이버가 설치되어 있는지 확인
+```bash
+nvidia-smi
+```
+- NVIDIA Container Toolkit 설치
+```bash
+# 저장소 및 GPG 키 추가
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
 
-### 4. USB 장치 인식
+# 패키지 업데이트 및 설치
+sudo apt-get update
+sudo apt-get install -y nvidia-container-toolkit
+sudo systemctl restart docker
+```
+
+### 5. USB 장치 인식
 -  usbipd 설치 : https://github.com/dorssel/usbipd-win/releases
 -  명령 프롬프트를 관리자 권한으로 열고 다음과 같이 입력
 ```bash
@@ -109,10 +126,10 @@ docker stop ros_robot_control
 docker rm ros_robot_control
 
 # 장치 매핑하여 새 컨테이너 생성
-docker run -it --name ros_robot_control --env="DISPLAY=host.docker.internal:0.0" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --device=/dev/ttyUSB0:/dev/ttyUSB0 --net=host osrf/ros:noetic-desktop-full
+docker run -it --gpus all --name ros_robot_control --env="DISPLAY=host.docker.internal:0.0" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --device=/dev/ttyUSB0:/dev/ttyUSB0 --net=host osrf/ros:noetic-desktop-full
 ```
 
-### 5. ROS 작업 공간 설정
+### 6. ROS 작업 공간 설정
 
 ```bash
 # 컨테이너 내부
@@ -123,14 +140,14 @@ echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-### 6. 컨테이너 내에서 장치 접근 권한 설정
+### 7. 컨테이너 내에서 장치 접근 권한 설정
 ```bash
 sudo apt update
 sudo usermod -aG dialout root
 sudo chmod 666 /dev/ttyUSB0
 ```
 
-### 7. 로보티즈 패키지 설치
+### 8. 로보티즈 패키지 설치
 ```bash
 # 기본 패키지 설치
 sudo apt install nano gedit git curl
