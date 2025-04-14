@@ -83,18 +83,7 @@ docker pull osrf/ros:noetic-desktop-full
 docker run -it --name ros_robot_control --env="DISPLAY=host.docker.internal:0.0" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --net=host osrf/ros:noetic-desktop-full
 ```
 
-### 4. ROS 작업 공간 설정
-
-```bash
-# 컨테이너 내부
-mkdir -p ~/catkin_ws/src
-cd ~/catkin_ws/
-catkin_make
-echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
-source ~/.bashrc
-```
-
-### 5. USB 장치 인식
+### 4. USB 장치 인식
 -  usbipd 설치 : https://github.com/dorssel/usbipd-win/releases
 -  명령 프롬프트를 관리자 권한으로 열고 다음과 같이 입력
 ```bash
@@ -121,6 +110,17 @@ docker rm ros_robot_control
 
 # 장치 매핑하여 새 컨테이너 생성
 docker run -it --name ros_robot_control --env="DISPLAY=host.docker.internal:0.0" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --device=/dev/ttyUSB0:/dev/ttyUSB0 --net=host osrf/ros:noetic-desktop-full
+```
+
+### 5. ROS 작업 공간 설정
+
+```bash
+# 컨테이너 내부
+mkdir -p ~/catkin_ws/src
+cd ~/catkin_ws/
+catkin_make
+echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+source ~/.bashrc
 ```
 
 ### 6. 컨테이너 내에서 장치 접근 권한 설정
