@@ -47,7 +47,7 @@ https://velog.io/@xeno/ROS2-Windows-%EC%84%A4%EC%B9%98
 </details>
 
 <details>
-<summary>Docker를 사용하는 방법</summary>
+<summary>Docker를 사용하는 방법 (이 방법 사용)</summary>
    
 ### 0. WSL 설치
 ```powershell
