@@ -179,6 +179,9 @@ roslaunch bioloid_description visualize.launch
 ## 로봇 애니메이션 실행
 새 터미널에서 도커 컨테이너 접속
 ```bash
+# 도커가 켜져 있지 않다면 시작
+docker start ros_robot_control
+# 도커 접속
 docker exec -it ros_robot_control bash
 
 # 스크립트 파일 생성
