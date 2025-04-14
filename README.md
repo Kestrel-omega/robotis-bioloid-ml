@@ -150,7 +150,8 @@ sudo chmod 666 /dev/ttyUSB0
 ### 8. 로보티즈 패키지 설치
 ```bash
 # 기본 패키지 설치
-sudo apt install nano gedit git curl
+sudo apt install -y nano gedit git curl
+sudo apt install -y libgl1-mesa-glx libgl1-mesa-dri libglew-dev libglvnd0 libglvnd-dev libegl1 libgles2 mesa-utils
 
 cd ~/catkin_ws/src
 git clone https://github.com/ROBOTIS-GIT/ROBOTIS-Framework.git
