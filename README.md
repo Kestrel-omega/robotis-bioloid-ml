@@ -126,7 +126,6 @@ source ~/.bashrc
 ### 6. 컨테이너 내에서 장치 접근 권한 설정
 ```bash
 sudo apt update
-sudo apt install -y dialout
 sudo usermod -aG dialout root
 sudo chmod 666 /dev/ttyUSB0
 ```
@@ -134,7 +133,7 @@ sudo chmod 666 /dev/ttyUSB0
 ### 7. 로보티즈 패키지 설치
 ```bash
 # 기본 패키지 설치
-sudo apt install nano gedit git
+sudo apt install nano gedit git curl
 
 cd ~/catkin_ws/src
 git clone https://github.com/ROBOTIS-GIT/ROBOTIS-Framework.git
