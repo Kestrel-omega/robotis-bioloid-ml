@@ -126,7 +126,7 @@ docker stop ros_robot_control
 docker rm ros_robot_control
 
 # 장치 매핑하여 새 컨테이너 생성
-docker run -it --gpus all --name ros_robot_control --env="DISPLAY=host.docker.internal:0.0" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --device=/dev/ttyUSB0:/dev/ttyUSB0 --net=host osrf/ros:noetic-desktop-full
+docker run -it --gpus all --name ros_robot_control --env="DISPLAY=host.docker.internal:0.0" -e LIBGL_ALWAYS_INDIRECT=0 -e QT_X11_NO_MITSHM=1 --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --device=/dev/ttyUSB0:/dev/ttyUSB0 --net=host osrf/ros:noetic-desktop-full
 ```
 
 ### 6. ROS 작업 공간 설정
