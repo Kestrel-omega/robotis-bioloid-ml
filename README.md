@@ -126,7 +126,7 @@ docker stop ros_robot_control
 docker rm ros_robot_control
 
 # 장치 매핑하여 새 컨테이너 생성
-docker run --gpus all -it -e DISPLAY=host.docker.internal:0.0 -e NVIDIA_VISIBLE_DEVICES=all -e NVIDIA_DRIVER_CAPABILITIES=graphics,utility,compute -e LIBGL_ALWAYS_INDIRECT=0 --device=/dev/ttyUSB0:/dev/ttyUSB0 --network=host osrf/ros:noetic-desktop-full
+docker run --gpus all -it --name ros_robot_control -e DISPLAY=host.docker.internal:0.0 -e NVIDIA_VISIBLE_DEVICES=all -e NVIDIA_DRIVER_CAPABILITIES=graphics,utility,compute -e LIBGL_ALWAYS_INDIRECT=0 --device=/dev/ttyUSB0:/dev/ttyUSB0 --network=host osrf/ros:noetic-desktop-full
 ```
 
 ### 6. ROS 작업 공간 설정
