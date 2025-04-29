@@ -1,6 +1,6 @@
 # robotis-bioloid-ml
 
-로보티즈 바이올로이드 프리미엄 키트의 16DOF 휴머노이드 A형 로봇을 딥러닝 모델 기반으로 제어해보는 프로젝트
+로보티즈 바이올로이드 프리미엄 키트의 18DOF 휴머노이드 A형 로봇을 딥러닝 모델 기반으로 제어해보는 프로젝트
 
 ## 프로젝트 개요
 ![image](https://github.com/user-attachments/assets/ca641654-52f4-4fdd-877d-6b99e85c9e03)
