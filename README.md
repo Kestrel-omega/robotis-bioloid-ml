@@ -112,6 +112,7 @@ usbipd list
 # 1-10   0403:6001  USB Serial Converter                                          Not shared
 
 # 해당 장치 공유 설정
+usbipd unbind -a
 usbipd bind --busid=4-14
 
 # WSL2에 장치 연결
